@@ -2,11 +2,27 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_db_instance" "example" {
-  engine            = "mysql"
-  allocated_storage = 10
-  instance_class    = "db.t2.micro"
-  name              = "example_database"
-  username          = "admin"
-  password          = "${var.db_password}"
+module "mysql_db" {
+  source = "git@github.com:marnas/terraform-modules.git//data-stores/mysql?ref=v0.0.2"
+
+  # db variables
+  db_storage        = 10
+  db_instance_class = "db.t2.micro"
+  db_name           = "example_database"
+  db_user           = "admin"
+  db_password       = "${var.db_password}"
+
+  # s3 variables
+  db_remote_state_bucket  = "terraform-state-marnas"
+  db_remote_state_key     = "stage/data-stores/mysql/terraform.tfstate"
+}
+
+# backend for remote terraform.tfstate sync
+terraform {
+  backend "s3" {
+    bucket  = "terraform-state-marnas"
+    key     = "stage/data-stores/mysql/terraform.tfstate"
+    region  = "eu-west-2"
+    encrypt = true
+  }
 }
