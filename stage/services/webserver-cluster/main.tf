@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 module "webserver_cluster" {
-  source = "../../../../modules/services/webserver-cluster/"
+  source = "git@github.com:marnas/terraform-modules.git//services/webserver-cluster?ref=v0.0.3"
 
   cluster_name            = "webservers-stage"
   db_remote_state_bucket  = "terraform-state-marnas"

@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "mysql_db" {
-  source = "../../../../modules/data-stores/mysql/"
+  source = "git@github.com:marnas/terraform-modules.git//data-stores/mysql?ref=v0.0.3"
 
   # db variables
   db_storage        = 10
