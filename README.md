@@ -1,33 +1,57 @@
-# Webserver Cluster
+# Terraform AWS
 
-One Paragraph of project description goes here
+This is a repository containing a demo on how to implement [terraform-modules](https://github.com/marnas/terraform-modules).
 
-## Getting Started
+## Folder structure
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+```
+├── live
+    ├── global
+    │   └── s3
+    │       ├── backend.tf
+    │       └── main.tf
+    └── stage
+        ├── data-stores
+        │   └── mysql
+        │       ├── main.tf
+        │       ├── output.tf
+        │       └── variables.tf
+        └── services
+            └── webserver-cluster
+                ├── main.tf
+                └── output.tf
+```
 
-### Prerequisites
+## Global
 
-What things you need to install the software and how to install them
+### S3
+
+Simple S3 Bucket used to store Terraform tfstate files remotely.
+
+* Versioning enabled
+* Encryption enabled
+
+## Stage
+
+### MySql
+
+In order to deploy the MySql Database a password will be required.
 
 ```
 export TF_VAR_db_password="(YOUR_DB_PASSWORD)"
 ```
 
-### Installing
 
-A step by step series of examples that tell you how to get a development env running
+### Webserver Cluster
 
-Say what the step will be
+The DNS name of the cluster will be displayed when the plan will be applied.
 
-```
-Give the example
-```
+## Deploying
 
-And repeat
+Easiest way to setup the AWS credentials is via the AWS CLI
 
 ```
-until finished
+aws configure
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+Please note that this is just a demo and many variables have been hardcoded *(e.g. S3 Bucket name)*, so you will need to replace them in order to deploy the infrastructure.
